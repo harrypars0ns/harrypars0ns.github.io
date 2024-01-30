@@ -1,0 +1,69 @@
+{% extends 'base.html' %} {% block content %}
+<!-- Recipe is displayed in full-->
+<div class="container">
+<!-- Name -->
+	<h4 class="cursive">{{ recipe.recipe_name }}</h4>
+	<br />
+    <!-- Description -->
+	<div class="recipe_container">
+		<div class="recipe-subhead">
+			<h5 class="recipe-subhead">
+				<i class="material-icons">info_outline</i>Description
+			</h5>
+		</div>
+		<div class="ingredient row">
+			<p class="recipe_container col s12">{{ recipe.recipe_description }}</p>
+		</div>
+	</div>
+	<br />
+	<div class="recipe_container">
+		<div class="recipe-subhead">
+			<h5 class="recipe-subhead">
+				<i class="material-icons">format_list_bulleted
+            </i>Ingredients
+			</h5>
+		</div>
+		<div class="ingredient">
+            <!-- Ingredients --> 
+            {% for ingredient in recipe.ingredients %}
+            <p>{{ ingredient }}</p>
+            {% endfor %}
+            <br>
+            <h5 class="recipe-subhead">
+                <i class="material-icons">format_list_numbered
+                </i>Instructions
+            </h5>
+            <!-- Instructions -->
+            {% for instruction in recipe.instructions %}
+                <p class="ingredient">{{ instruction }}</p>
+            {% endfor %}
+		</div>
+        <br>
+        <br>
+        <!-- Edit and Delete -->
+        <div class='read-recipe-buttons'>
+		<a href="{{url_for('edit_recipe', recipe_id=recipe._id)}}"
+			class="waves-effect waves-light light-green darken-1 btn-small">Edit</a>
+		<a onclick="confirmDelete('recipe', '{{recipe._id}}')"
+                class="waves-effect waves-light red darken-3 btn-small"
+                >Delete</a
+              >
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+	</div>
+</div>
+<!-- Javascript function, confirms before deleting a recipe. For safety. -->
+<script>
+    function confirmDelete(type, id) {
+    if (type == 'recipe') {
+        if (confirm("Do you want to delete this " + type + " ?")) {
+            document.location.href = '/delete_recipe/' + id;
+        }
+    }
+}
+</script>
+
+{% endblock %}
